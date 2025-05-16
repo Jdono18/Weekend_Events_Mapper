@@ -1,32 +1,11 @@
-let EventMapCoordinates = [44.986656, -93.258133]
-let zoomLevel = 13
+const esriApiKey = 'AAPTxy8BH1VEsoebNVZXo8HurNfwgyu28XypPfjvxdk2NXA14uc79GeIP_AyE0H8JjQkNne_TGoci6Q7yK7bIOgbwPEnSehBZxIVWuTon8RwJsLDgrVhijASV8nT7GWDI9fZKGN2J9iaOhgKgmY8ssvTfhyqa91d3RQGjHQ_fOeYa5xRlIIHHNyTp4ofcsT_WzGO4OLqY_btsaOQ-q9M_BVxJA2ouWXOAwq8ayKK14xIY1c.AT1_tDIbC5oq';
 
-let map = L.map('map').setView(EventMapCoordinates, zoomLevel)
+const map = L.map('map').setView([44.986656, -93.258133], 12);
 
-// Base imagery layer
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics',
+L.esri.Vector.vectorBasemapLayer('ArcGIS:Imagery', {
+    apikey: esriApiKey,
     maxZoom: 22
-  }).addTo(map);
-
-  // Create a pane for labels (on top, but non-interactive)
-  map.createPane('labels');
-  map.getPane('labels').style.zIndex = 650;
-  map.getPane('labels').style.pointerEvents = 'none';
-
-  // Add Transportation labels (roads, streets)
-  L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy; Esri',
-    pane: 'labels'
-  }).addTo(map);
-
-  // Add Boundaries and Places labels (city names, place names)
-  L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy; Esri',
-    pane: 'labels'
-  }).addTo(map);
-
-
+}).addTo(map);
 
 /*L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
