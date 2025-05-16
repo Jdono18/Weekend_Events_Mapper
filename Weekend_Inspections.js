@@ -1,13 +1,24 @@
 let EventMapCoordinates = [44.986656, -93.258133]
-let zoomLevel = 12
+let zoomLevel = 13
 
 let map = L.map('map').setView(EventMapCoordinates, zoomLevel)
 
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-  attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-  maxZoom: 22
-}).addTo(map);
+// Add World Imagery base layer
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    maxZoom: 22
+  }).addTo(map);
 
+  // Create a custom pane for labels with higher z-index
+  map.createPane('labels');
+  map.getPane('labels').style.zIndex = 650;
+  map.getPane('labels').style.pointerEvents = 'none'; // Allows clicks to pass through labels
+
+  // Add Esri Reference Layer (Labels)
+  L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Labels &copy; <a href="https://www.esri.com/">Esri</a>',
+    pane: 'labels'
+  }).addTo(map);
 
 
 
