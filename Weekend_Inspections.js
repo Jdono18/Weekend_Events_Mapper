@@ -3,20 +3,26 @@ let zoomLevel = 13
 
 let map = L.map('map').setView(EventMapCoordinates, zoomLevel)
 
-// Add World Imagery base layer
+// Base imagery layer
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '&copy; <a href="https://www.esri.com/">Esri</a> &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics',
     maxZoom: 22
   }).addTo(map);
 
-  // Create a custom pane for labels with higher z-index
+  // Create a pane for labels (on top, but non-interactive)
   map.createPane('labels');
   map.getPane('labels').style.zIndex = 650;
-  map.getPane('labels').style.pointerEvents = 'none'; // Allows clicks to pass through labels
+  map.getPane('labels').style.pointerEvents = 'none';
 
-  // Add Esri Reference Layer (Labels)
+  // Add Transportation labels (roads, streets)
+  L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; Esri',
+    pane: 'labels'
+  }).addTo(map);
+
+  // Add Boundaries and Places labels (city names, place names)
   L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Labels &copy; <a href="https://www.esri.com/">Esri</a>',
+    attribution: '&copy; Esri',
     pane: 'labels'
   }).addTo(map);
 
